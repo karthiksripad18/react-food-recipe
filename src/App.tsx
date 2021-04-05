@@ -4,6 +4,8 @@ import './App.css';
 import {auth, provider} from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Routes from './Routes';
+
 import {
   setActiveUser,
   setUserLogOutState,
@@ -44,16 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      {
-        userName ? (
-          <>
-          <h1>{userName}</h1>
-          <button onClick={handleSignOut}>Sign Out</button>
-          </>
-        ) : (
-          <button onClick={handleSignIn}>Sign In</button>
-        )
-      }
+      <Routes />
     </div>
   );
 }
