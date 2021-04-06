@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import {Redirect, useLocation} from 'react-router-dom';
 
 import backgroundImage from '../assets/login-page.jpg';
 import googleImage from '../assets/google.png';
@@ -14,9 +14,6 @@ import gitHubImage from '../assets/github.png';
 import {auth, provider} from '../firebase';
 import {
     setActiveUser,
-    setUserLogOutState,
-    selectUserName,
-    selectUserEmail
 } from '../redux/userSlice';
 
 import Alert from './Alert';
@@ -49,6 +46,9 @@ const Login = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
 
+    const {state: {from: fromLocation} } : any = useLocation();
+    const [redirectToreferrer, setRedirectToreferrer] = useState(false);
+
     const [open, setOpen] = useState<boolean>(false);
     const [message, setMessage] = useState<string | null>(null);
     const [messageType, setMessageType] = useState<string | null>(null);
@@ -71,7 +71,8 @@ const Login = () => {
                         userName: result.user?.displayName,
                         userEmail: result.user?.email
                     }));
-                    handleSnackBarOpen("success", "Login Successful");
+                    // handleSnackBarOpen("success", "Login Successful");
+                    setRedirectToreferrer(true);
                 }
             ).catch(
                 (error) => {
@@ -85,17 +86,19 @@ const Login = () => {
         }
     };
 
+    if (redirectToreferrer) return <Redirect to={fromLocation} />
+
     return (
     <div className={classes.root}>
         <Paper className={classes.form} elevation={2}>
             <Tooltip title="Login with Google">
-                <img onClick={() => handleSignIn("google")} className={classes.loginMethodImg} src={googleImage} alt="Google Image" />
+                <img onClick={() => handleSignIn("google")} className={classes.loginMethodImg} src={googleImage} alt="Google Icon" />
             </Tooltip>
             <Tooltip title="Login with Facebook">
-                <img onClick={() => handleSignIn("facebook")} className={classes.loginMethodImg} src={faceBookImage} alt="Facebook Image" />
+                <img onClick={() => handleSignIn("facebook")} className={classes.loginMethodImg} src={faceBookImage} alt="Facebook Icon" />
             </Tooltip>
             <Tooltip title="Login with Github">
-                <img onClick={() => handleSignIn("github")} className={classes.loginMethodImg} src={gitHubImage} alt="Github Image" />
+                <img onClick={() => handleSignIn("github")} className={classes.loginMethodImg} src={gitHubImage} alt="Github Icon" />
             </Tooltip>
         </Paper>
         <Snackbar open={open} autoHideDuration={3000} onClose={handleSnackBarClose}>
