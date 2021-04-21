@@ -26,7 +26,7 @@ const Navbar = () => {
         <AppBar position="static">
             <Toolbar className={classes.navlinkContainer}>
                 <Link to="/" className={classes.navlink}><Typography variant="h5">Home</Typography></Link>
-                <Link to="/" className={classes.navlink}><Typography variant="h5">Recipes</Typography></Link>
+                <Link to="/search-recipes" className={classes.navlink}><Typography variant="h5">Recipes</Typography></Link>
                 <Link to="/" className={classes.navlink}><Typography variant="h5">Logout</Typography></Link>
             </Toolbar>
         </AppBar>

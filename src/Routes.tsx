@@ -8,6 +8,7 @@ import {
 
 import Login from './components/Login';
 import Home from './components/Home';
+import SearchRecipes from './components/SearchRecipes';
 
 const PrivateRoute = ({component: Component, path}: {component: FunctionComponent, path: string}) => {
     const location = useLocation();
@@ -28,6 +29,7 @@ const Routes = () => {
     return (
         <Switch>
             <Route path="/login"><Login /></Route>
+            <PrivateRoute path="/search-recipes" component={SearchRecipes} />
             <PrivateRoute path="/" component={Home} />
         </Switch>
     )
